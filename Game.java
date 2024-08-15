@@ -22,6 +22,9 @@ public class Game {
     JButton startButton, choice1, choice2, choice3, choice4;
     JTextArea mainTextArea;
 
+    int playerHP;
+    String weapon;
+
     TitleScreenHandler tsHandler = new TitleScreenHandler();
 
     public static void main(String[] args) {
@@ -149,6 +152,16 @@ public class Game {
         weaponLabelName.setForeground(Color.white);
         playerPanel.add(weaponLabelName);
 
+        playerSetup();
+
+    }
+
+    public void playerSetup() {
+
+        playerHP = 15;
+        weapon = "Knife";
+        weaponLabelName.setText(weapon);
+        hpLabelNumber.setText("" + playerHP); // Note: Can't just use setText for an int as it causes an error
 
     }
 
