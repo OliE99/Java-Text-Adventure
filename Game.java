@@ -18,14 +18,15 @@ public class Game {
     JPanel titleNamePanel, startButtonPanel, mainTextPanel, choiceButtonPanel, playerPanel;
     JLabel titleNameLabel, hpLabel, hpLabelNumber, weaponLabel, weaponLabelName;
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
-    Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
+    Font normalFont = new Font("Times New Roman", Font.PLAIN, 28);
     JButton startButton, choice1, choice2, choice3, choice4;
     JTextArea mainTextArea;
 
     int playerHP;
-    String weapon;
+    String weapon, position;
 
     TitleScreenHandler tsHandler = new TitleScreenHandler();
+    ChoiceHandler choiceHandler = new ChoiceHandler();
 
     public static void main(String[] args) {
         
@@ -82,7 +83,7 @@ public class Game {
         mainTextPanel.setBackground(Color.black);
         con.add(mainTextPanel);
 
-        mainTextArea = new JTextArea("Main text area");
+        mainTextArea = new JTextArea();
         mainTextArea.setBounds(100, 100, 600, 250);
         mainTextArea.setBackground(Color.black);
         mainTextArea.setForeground(Color.white);
@@ -103,6 +104,8 @@ public class Game {
         choice1.setFont(normalFont);
         choiceButtonPanel.add(choice1);
         choice1.setBorderPainted(false);
+        choice1.addActionListener(choiceHandler);
+        choice1.setActionCommand("c1");
 
         choice2 = new JButton("Choice 2");
         choice2.setBackground(Color.black);
@@ -110,6 +113,8 @@ public class Game {
         choice2.setFont(normalFont);
         choiceButtonPanel.add(choice2);
         choice2.setBorderPainted(false);
+        choice2.addActionListener(choiceHandler);
+        choice2.setActionCommand("c2");
 
         choice3 = new JButton("Choice 3");
         choice3.setBackground(Color.black);
@@ -117,6 +122,8 @@ public class Game {
         choice3.setFont(normalFont);
         choiceButtonPanel.add(choice3);
         choice3.setBorderPainted(false);
+        choice3.addActionListener(choiceHandler);
+        choice3.setActionCommand("c3");
 
         choice4 = new JButton("Choice 4");
         choice4.setBackground(Color.black);
@@ -124,6 +131,8 @@ public class Game {
         choice4.setFont(normalFont);
         choiceButtonPanel.add(choice4);
         choice4.setBorderPainted(false);
+        choice4.addActionListener(choiceHandler);
+        choice4.setActionCommand("c4");
 
         // Player Info
         playerPanel = new JPanel();
@@ -163,6 +172,34 @@ public class Game {
         weaponLabelName.setText(weapon);
         hpLabelNumber.setText("" + playerHP); // Note: Can't just use setText for an int as it causes an error
 
+        townGate();
+
+    }
+
+    public void townGate() {
+
+        position = "townGate";
+        
+        mainTextArea.setText("You're at the gate of the town. \nA guard is standing in front of you. \n\nWhat do you do?");
+
+        choice1.setText("Talk to the guard");
+        choice2.setText("Attack the guard");
+        choice3.setText("Leave");
+        choice4.setText("");
+
+    }
+
+    public void talkGuard() {
+
+        position = "talkGuard";
+
+        mainTextArea.setText("Guard: Hello stranger. I have never seen your face. \nI'm sorry but we cannot let a stranger enter our town.");
+
+        choice1.setText(">");
+        choice2.setText("");
+        choice3.setText("");
+        choice4.setText("");
+
     }
 
     public class TitleScreenHandler implements ActionListener {
@@ -172,5 +209,35 @@ public class Game {
             createGameScreen();
 
         }
+    }
+
+    public class ChoiceHandler implements ActionListener {
+
+        public void actionPerformed(ActionEvent event) {
+
+            String yourChoice = event.getActionCommand();
+
+            switch(position) {
+                case "townGate":
+                    switch(yourChoice) {
+                        case "c1":
+                          talkGuard();
+                          break;
+                        case "c2":
+                            break;
+                        case "c3":
+                            break;  
+                    }
+                    break;
+                case "talkGuard":
+                    switch(yourChoice) {
+                        case "c1":
+                            townGate();
+                            break;
+                    }
+            }
+
+        }
+
     }
 }
